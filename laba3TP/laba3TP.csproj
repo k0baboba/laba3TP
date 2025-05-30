@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ChartBuilder.cs" />
     <Compile Include="DataLoader.cs" />
     <Compile Include="DataProcessor.cs" />
     <Compile Include="ForecastCalculator.cs" />
