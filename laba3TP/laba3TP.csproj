@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataProcessor.cs" />
     <Compile Include="ForecastCalculator.cs" />
     <Compile Include="SalaryData.cs" />
     <Page Include="MainWindow.xaml">
