@@ -93,7 +93,66 @@ namespace laba3
             });
         }
 
-        // public void BuildInflationChart(CartesianChart chart, List<InflationData> data, List<double> forecast)
-        // Код Гомера
+        public void BuildInflationChart(CartesianChart chart, List<InflationData> data, List<double> forecast)
+        {
+            // Очищаем существующие оси
+            chart.AxisX.Clear();
+            chart.AxisY.Clear();
+
+            // Создаем полный список лет
+            var allYears = new List<string>();
+            allYears.AddRange(data.Select(d => d.Year.ToString()));
+
+            int lastYear = data.Last().Year;
+            for (int i = 1; i <= forecast.Count; i++)
+            {
+                allYears.Add((lastYear + i).ToString());
+            }
+
+            // Подготавливаем данные для прогноза
+            var forecastValues = new ChartValues<double>();
+
+            // Добавляем null значения для исторических данных
+            for (int i = 0; i < data.Count; i++)
+            {
+                forecastValues.Add(double.NaN);
+            }
+
+            // Добавляем прогнозные значения
+            forecastValues.AddRange(forecast);
+
+            chart.Series = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Инфляция",
+                    Values = new ChartValues<double>(data.Select(d => d.InflationRate)),
+                    PointGeometry = DefaultGeometries.Circle,
+                    PointGeometrySize = 8
+                },
+                new LineSeries
+                {
+                    Title = "Прогноз инфляции",
+                    Values = forecastValues,
+                    Stroke = System.Windows.Media.Brushes.Orange,
+                    StrokeDashArray = new System.Windows.Media.DoubleCollection(new double[] { 5, 5 }),
+                    PointGeometry = DefaultGeometries.Square,
+                    PointGeometrySize = 6
+                }
+            };
+
+            chart.AxisX.Add(new Axis
+            {
+                Title = "Год",
+                Labels = allYears.ToArray(),
+                Separator = new Separator { Step = 1 }
+            });
+
+            chart.AxisY.Add(new Axis
+            {
+                Title = "Инфляция (%)",
+                LabelFormatter = value => value.ToString("F1") + "%"
+            });
+        }
     }
 }
